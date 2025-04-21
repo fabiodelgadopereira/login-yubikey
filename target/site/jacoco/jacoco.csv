@@ -1,0 +1,23 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+springboot,com.cliente.springboot,SpringbootApplication,8,0,0,0,3,0,2,0,2,0
+springboot,com.cliente.springboot.model,EmailConfig,31,0,0,0,13,0,9,0,9,0
+springboot,com.cliente.springboot.model,Contato,33,0,0,0,14,0,7,0,7,0
+springboot,com.cliente.springboot.model,Credential,127,0,10,0,33,0,19,0,14,0
+springboot,com.cliente.springboot.model,Cliente,189,0,14,0,47,0,27,0,20,0
+springboot,com.cliente.springboot.controller,ContatoController,64,0,0,0,15,0,2,0,2,0
+springboot,com.cliente.springboot.controller,AuthController,41,0,4,0,9,0,5,0,3,0
+springboot,com.cliente.springboot.controller,ClienteController,54,0,0,0,9,0,6,0,6,0
+springboot,com.cliente.springboot.controller,FileUploadController,49,0,2,0,10,0,4,0,3,0
+springboot,com.cliente.springboot.repository,CredentialRepository,129,0,10,0,28,0,10,0,5,0
+springboot,com.cliente.springboot.repository,CredentialRepository.new RowMapper() {...},22,0,0,0,5,0,2,0,2,0
+springboot,com.cliente.springboot.repository,ClienteRepository,102,0,0,0,23,0,7,0,7,0
+springboot,com.dto,UserForRegisterDto,96,0,8,0,26,0,15,0,11,0
+springboot,com.dto,UserForAuthDto,96,0,8,0,26,0,15,0,11,0
+springboot,com.dto,UserForLoginDto,96,0,8,0,26,0,15,0,11,0
+springboot,com.cliente.springboot.util,PasswordUtils,37,0,0,0,10,0,3,0,3,0
+springboot,com.cliente.springboot.config,JWTLoginFilter,36,0,0,0,8,0,3,0,3,0
+springboot,com.cliente.springboot.config,SwaggerConfig,81,0,0,0,18,0,5,0,5,0
+springboot,com.cliente.springboot.config,WebSecurityConfig,82,0,0,0,15,0,3,0,3,0
+springboot,com.cliente.springboot.config,JWTAuthenticationFilter,15,0,0,0,6,0,2,0,2,0
+springboot,com.cliente.springboot.config,SwaggerConfig.new ArrayList() {...},33,0,0,0,11,0,1,0,1,0
+springboot,com.cliente.springboot.config,JwtTokenConfig,70,0,4,0,22,0,8,0,6,0

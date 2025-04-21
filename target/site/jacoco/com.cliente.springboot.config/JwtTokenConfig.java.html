@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtTokenConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">springboot</a> &gt; <a href="index.source.html" class="el_package">com.cliente.springboot.config</a> &gt; <span class="el_source">JwtTokenConfig.java</span></div><h1>JwtTokenConfig.java</h1><pre class="source lang-java linenums">package com.cliente.springboot.config;
+
+import com.dto.UserForLoginDto;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.security.Key;
+import java.util.Collections;
+import java.util.Date;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+
+@Component
+<span class="nc" id="L19">public class JwtTokenConfig {</span>
+
+    static final long EXPIRATION_TIME = 860_000_000;
+    static final String TOKEN_PREFIX = &quot;Bearer&quot;;
+    static final String HEADER_STRING = &quot;Authorization&quot;;
+
+    // Use a chave gerada com segurança para o HMAC-SHA512
+<span class="nc" id="L26">    private static final Key secret = Keys.secretKeyFor(SignatureAlgorithm.HS512);</span>
+
+    // Generate token for user
+    public String generateToken(UserForLoginDto user) {
+<span class="nc" id="L30">        return doGenerateToken(user.getUsername());</span>
+    }
+
+    // Gera o token com base no nome de usuário
+    static String doGenerateToken(String username) {
+<span class="nc" id="L35">        return Jwts.builder()</span>
+<span class="nc" id="L36">                .setSubject(username)</span>
+<span class="nc" id="L37">                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))</span>
+<span class="nc" id="L38">                .signWith(secret) // Use a chave segura gerada</span>
+<span class="nc" id="L39">                .compact();</span>
+    }
+
+    // Adiciona a autenticação ao cabeçalho da resposta
+    static void addAuthentication(HttpServletResponse response, String username) {
+<span class="nc" id="L44">        String JWT = doGenerateToken(username);</span>
+<span class="nc" id="L45">        response.addHeader(HEADER_STRING, TOKEN_PREFIX + &quot; &quot; + JWT);</span>
+<span class="nc" id="L46">    }</span>
+
+    // Obtém a autenticação a partir do token JWT
+    static Authentication getAuthentication(HttpServletRequest request) {
+<span class="nc" id="L50">        String token = request.getHeader(HEADER_STRING);</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (token != null) {</span>
+            // Faz parse do token
+<span class="nc" id="L54">            String user = Jwts.parserBuilder()</span>
+<span class="nc" id="L55">                    .setSigningKey(secret) // Usando a chave segura</span>
+<span class="nc" id="L56">                    .build()</span>
+<span class="nc" id="L57">                    .parseClaimsJws(token.replace(TOKEN_PREFIX, &quot;&quot;))</span>
+<span class="nc" id="L58">                    .getBody()</span>
+<span class="nc" id="L59">                    .getSubject();</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">            if (user != null) {</span>
+<span class="nc" id="L62">                return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());</span>
+            }
+        }
+<span class="nc" id="L65">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

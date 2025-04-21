@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileUploadController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">springboot</a> &gt; <a href="index.source.html" class="el_package">com.cliente.springboot.controller</a> &gt; <span class="el_source">FileUploadController.java</span></div><h1>FileUploadController.java</h1><pre class="source lang-java linenums">package com.cliente.springboot.controller;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+@EnableSwagger2
+@RestController
+@RequestMapping()
+<span class="nc" id="L20">public class FileUploadController {</span>
+
+<span class="nc" id="L22">    private static String UPLOADED_FOLDER = System.getProperty(&quot;java.io.tmpdir&quot;);</span>
+
+    @PostMapping(&quot;/FileUpload&quot;) 
+    public String singleFileUpload(@RequestParam(&quot;file&quot;) MultipartFile file, RedirectAttributes redirectAttributes) {
+
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (file.isEmpty()) {</span>
+<span class="nc" id="L28">            return &quot;Erro ao tentar fazer upload&quot;;</span>
+        }
+        try {
+            // Pega os bytes recebido e salva no diretório
+<span class="nc" id="L32">            byte[] bytes = file.getBytes();</span>
+<span class="nc" id="L33">            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());</span>
+<span class="nc" id="L34">            Files.write(path, bytes);</span>
+
+<span class="nc" id="L36">            return &quot;Arquivo:'&quot; + file.getOriginalFilename() + &quot;' upload realizado com sucesso!&quot;;</span>
+
+<span class="nc" id="L38">        } catch (IOException e) {</span>
+<span class="nc" id="L39">            return &quot;Erro ao tentar fazer upload&quot;;</span>
+        }
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

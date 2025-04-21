@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JWTLoginFilter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">springboot</a> &gt; <a href="index.source.html" class="el_package">com.cliente.springboot.config</a> &gt; <span class="el_source">JWTLoginFilter.java</span></div><h1>JWTLoginFilter.java</h1><pre class="source lang-java linenums">package com.cliente.springboot.config;
+
+import java.io.IOException;
+import java.util.Collections;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.dto.UserForLoginDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
+
+	protected JWTLoginFilter(String url, AuthenticationManager authManager) {
+<span class="nc" id="L24">		super(new AntPathRequestMatcher(url));</span>
+<span class="nc" id="L25">		setAuthenticationManager(authManager);</span>
+<span class="nc" id="L26">	}</span>
+
+	@Override
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+			throws AuthenticationException, IOException, ServletException {
+
+<span class="nc" id="L32">		UserForLoginDto credentials = new ObjectMapper().readValue(request.getInputStream(), UserForLoginDto.class);</span>
+
+<span class="nc" id="L34">		return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(</span>
+<span class="nc" id="L35">				credentials.getUsername(), credentials.getPassword(), Collections.emptyList()));</span>
+	}
+
+	@Override
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+			FilterChain filterChain, Authentication auth) throws IOException, ServletException {
+
+<span class="nc" id="L42">		JwtTokenConfig.addAuthentication(response, auth.getName());</span>
+<span class="nc" id="L43">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
